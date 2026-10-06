@@ -28,5 +28,9 @@ export default function proxy(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return NextResponse.next({ headers: { Vary: 'Accept' } });
 }
+
+export const config = {
+  matcher: '/docs/:path*',
+};

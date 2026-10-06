@@ -15,6 +15,21 @@ yarn dev
 
 Open http://localhost:3000 with your browser to see the result.
 
+## AI chat and site configuration
+
+Copy `.env.example` to `.env.local` and set `OPENROUTER_API_KEY`.
+`OPENROUTER_MODEL` selects the model explicitly; the chat endpoint requires both
+values and does not select a paid model when configuration is missing.
+The example uses `nvidia/nemotron-3-ultra-550b-a55b:free`.
+
+Set `SITE_URL` to the site's actual URL in production so social preview images
+resolve against the correct origin. Restart the development server after editing
+environment variables. Keep `.env.local` out of Git.
+
+From the monorepo root, run `pnpm exec turbo run docs#dev` for development,
+`pnpm exec turbo run docs#check-types` for type checking, and
+`pnpm exec turbo run docs#build` for a production build.
+
 ## Explore
 
 In the project, you can see:

@@ -1,9 +1,12 @@
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import {
+  APICallError,
+  StreamProviderError,
   convertToModelMessages,
   createUIMessageStreamResponse,
   stepCountIs,
   streamText,
+  safeValidateUIMessages,
   tool,
   toUIMessageStream,
   type InferToolOutput,
@@ -11,7 +14,7 @@ import {
 import { z } from 'zod';
 import { source } from '@/lib/source';
 import { Document, type DocumentData } from 'flexsearch';
-import { ChatUIMessage, SearchTool } from '../../../components/ai/search';
+import type { ChatUIMessage, SearchTool } from '../../../components/ai/search';
 
 interface CustomDocument extends DocumentData {
   url: string;
@@ -31,7 +34,7 @@ async function createSearchServer() {
   });
 
   const docs = await chunkedAll(
-    source.getPages().map(async (page) => {
+    source.getPages().map((page) => async () => {
       if (!('getText' in page.data)) return null;
 
       return {
@@ -50,11 +53,11 @@ async function createSearchServer() {
   return search;
 }
 
-async function chunkedAll<O>(promises: Promise<O>[]): Promise<O[]> {
+async function chunkedAll<O>(tasks: (() => Promise<O>)[]): Promise<O[]> {
   const SIZE = 50;
   const out: O[] = [];
-  for (let i = 0; i < promises.length; i += SIZE) {
-    out.push(...(await Promise.all(promises.slice(i, i + SIZE))));
+  for (let i = 0; i < tasks.length; i += SIZE) {
+    out.push(...(await Promise.all(tasks.slice(i, i + SIZE).map((task) => task()))));
   }
   return out;
 }
@@ -72,32 +75,72 @@ const systemPrompt = [
   'If you cannot find the answer in search results, say you do not know and suggest a better search query.',
 ].join('\n');
 
-export async function POST(req: Request, ctx: RouteContext<"/api/chat">) {
-  const reqJson = await req.json();
+export async function POST(req: Request) {
+  const model = process.env.OPENROUTER_MODEL;
+  if (!process.env.OPENROUTER_API_KEY || !model) {
+    return Response.json(
+      { error: 'Configure OPENROUTER_API_KEY and OPENROUTER_MODEL.' },
+      { status: 503 },
+    );
+  }
+
+  let reqJson: unknown;
+  try {
+    reqJson = await req.json();
+  } catch {
+    return Response.json({ error: 'Invalid JSON request.' }, { status: 400 });
+  }
+
+  const body = z.object({ messages: z.array(z.unknown()).min(1) }).safeParse(reqJson);
+  if (!body.success) {
+    return Response.json({ error: 'A non-empty messages array is required.' }, { status: 400 });
+  }
+  const validated = await safeValidateUIMessages<ChatUIMessage>({
+    messages: body.data.messages,
+    dataSchemas: {
+      client: z.object({ location: z.string(), title: z.string() }),
+    },
+    tools: { search: searchTool },
+  });
+  if (!validated.success || validated.data.some((message) => message.role === 'system')) {
+    return Response.json({ error: 'Invalid chat messages.' }, { status: 400 });
+  }
 
   const result = streamText({
-    model: openrouter.chat(process.env.OPENROUTER_MODEL ?? 'anthropic/claude-3.5-sonnet'),
+    model: openrouter.chat(model),
+    abortSignal: req.signal,
     stopWhen: stepCountIs(5),
     tools: {
       search: searchTool,
     },
-    messages: [
-      { role: 'system', content: systemPrompt },
-      ...(await convertToModelMessages<ChatUIMessage>(reqJson.messages ?? [], {
-        convertDataPart(part) {
-          if (part.type === 'data-client')
-            return {
-              type: 'text',
-              text: `[Client Context: ${JSON.stringify(part.data)}]`,
-            };
-        },
-      })),
-    ],
+    instructions: systemPrompt,
+    messages: await convertToModelMessages<ChatUIMessage>(validated.data, {
+      convertDataPart(part) {
+        if (part.type === 'data-client')
+          return {
+            type: 'text',
+            text: `[Client Context: ${JSON.stringify(part.data)}]`,
+          };
+      },
+    }),
     toolChoice: 'auto',
   });
 
   return createUIMessageStreamResponse({
-    stream: toUIMessageStream({ stream: result.stream }),
+    stream: toUIMessageStream({
+      stream: result.stream,
+      onError(error) {
+        if (APICallError.isInstance(error) || StreamProviderError.isInstance(error)) {
+          if (error.statusCode === 503) return '模型服务暂时过载，请稍后重试。';
+          if (error.statusCode === 429) return '已达到模型请求频率或免费额度限制，请稍后重试。';
+          if (error.statusCode === 401 || error.statusCode === 403)
+            return '模型服务认证失败，请检查 OpenRouter API Key 和模型访问权限。';
+          if (error.statusCode === 402)
+            return '模型服务要求账户余额，请检查 OpenRouter 账户与模型配置。';
+        }
+        return '聊天请求失败，请查看服务器日志。';
+      },
+    }),
   });
 }
 
@@ -109,6 +152,10 @@ const searchTool = tool({
   }),
   async execute({ query, limit }): Promise<InferToolOutput<SearchTool>> {
     const search = await searchServer;
-    return await search.searchAsync(query, { limit, merge: true, enrich: true });
+    return await search.searchAsync(query, {
+      limit,
+      merge: true,
+      enrich: true,
+    });
   },
 }) satisfies SearchTool;

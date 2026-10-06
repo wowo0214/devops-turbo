@@ -6,42 +6,44 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "types:check": "next typegen && tsc --noEmit"
+    "check-types": "next typegen && tsc --noEmit",
+    "types:check": "pnpm run check-types"
   },
   "dependencies": {
+    "@ai-sdk/react": "^4.0.0",
+    "@base-ui/react": "^1.8.0",
+    "@fuma-translate/react": "^1.0.2",
+    "@fumadocs/base-ui": "16.16.1",
+    "@openrouter/ai-sdk-provider": "^3.0.0",
+    "ai": "^7.0.0",
+    "class-variance-authority": "^0.7.1",
     "cn": "^0.4.0",
+    "flexsearch": "^0.8.212",
     "fumadocs-core": "16.16.1",
     "fumadocs-mdx": "15.4.6",
     "fumadocs-ui": "npm:@fumadocs/base-ui@16.16.1",
+    "hast-util-to-jsx-runtime": "^2.3.6",
     "lucide-react": "^1.50.0",
     "next": "16.3.8",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "@openrouter/ai-sdk-provider": "^3.0.0",
-    "ai": "^7.0.0",
-    "zod": "^4.6.5",
-    "flexsearch": "^0.8.212",
-    "@ai-sdk/react": "^4.0.0",
-    "@base-ui/react": "^1.8.0",
-    "@fuma-translate/react": "^1.0.2",
-    "hast-util-to-jsx-runtime": "^2.3.6",
+    "react-icons": "5.5.0",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-rehype": "^11.1.2",
     "remend": "^1.4.0",
     "unist-util-visit": "^5.1.0",
-    "@fumadocs/base-ui": "16.16.1",
-    "class-variance-authority": "^0.7.1"
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
+    "@types/hast": "^3.0.5",
     "@types/mdx": "^2.0.14",
     "@types/node": "^26.6.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2",
-    "@types/hast": "^3.0.5"
+    "typescript": "^7.0.2"
   }
 }

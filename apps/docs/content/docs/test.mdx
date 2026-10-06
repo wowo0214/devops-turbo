@@ -3,6 +3,8 @@ title: Components
 description: Components
 ---
 
+import { Zap } from 'lucide-react';
+
 ## Code Block
 
 ```js
@@ -14,6 +16,12 @@ return res
 ## Cards
 
 <Cards>
+  <Card
+    icon={<Zap />}
+    title="Follow the <1min Quick Start"
+    description="Get started with the Visual Builder and TypeScript SDK in under 5 minutes."
+    href="/docs"
+  />
   <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
   <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
 </Cards>

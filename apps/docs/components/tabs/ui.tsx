@@ -87,12 +87,14 @@ export function Tabs({
   const valueToIdMap = useMemo(() => new Map<string, string>(), []);
   const panels = useMemo(() => new Map<string, HTMLElement>(), []);
   const triggers = useMemo(() => new Set<string>(), []);
-  const [value, setValue] =
-    _value === undefined
-      ? // eslint-disable-next-line react-hooks/rules-of-hooks -- not supposed to change controlled/uncontrolled
-        useState(defaultValue)
-      : // eslint-disable-next-line react-hooks/rules-of-hooks -- not supposed to change controlled/uncontrolled
-        [_value, (v: string) => _onValueChange?.(v)];
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- not supposed to change controlled/uncontrolled
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- not supposed to change controlled/uncontrolled
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const value = _value === undefined ? internalValue : _value;
+  const setValue = (v: string) => {
+    if (_value === undefined) setInternalValue(v);
+    _onValueChange?.(v);
+  };
 
   const onChange = useEffectEvent((v: string) => {
     if (triggers.has(v)) setValue(v);
@@ -136,6 +138,7 @@ export function Tabs({
     listeners.set(groupId, groupListeners);
     return () => {
       groupListeners.delete(onChange);
+      if (groupListeners.size === 0) listeners.delete(groupId);
     };
   }, [groupId, persist]);
 

@@ -13,6 +13,7 @@ import {
   ChevronRightIcon,
   CopyIcon,
   MessageCircleIcon,
+  SparklesIcon,
   RefreshCwIcon,
   SearchIcon,
   SquareIcon,
@@ -135,10 +136,11 @@ function useChatState() {
 /** the chat panel, for the `aiChat` option of docs layouts */
 export function AIChatPanel() {
   return (
-    <div className="flex size-full flex-col">
+    <div className="docs-ai-content flex size-full flex-col">
       <AIChatHeader />
       <AIChatMessages className="flex-1" />
-      <AIChatInput className="mx-3 mb-3" />
+      <AIChatInput className="docs-ai-input mx-5 mb-5" />
+      <footer className="docs-ai-footer">Answers come from the docs. AI can make mistakes.</footer>
     </div>
   );
 }
@@ -151,7 +153,7 @@ export function AIChatHeader() {
   const title = first ? textOf(first) : t('Ask AI');
 
   return (
-    <div className="flex h-12 shrink-0 items-center gap-0.5 ps-3 pe-1.5">
+    <div className="docs-ai-header flex h-12 shrink-0 items-center gap-0.5 ps-3 pe-1.5">
       <p
         key={title}
         className="flex-1 truncate text-sm text-fd-muted-foreground motion-safe:animate-fd-roll-in"
@@ -194,19 +196,21 @@ export function AIChatMessages({ className }: { className?: string }) {
   if (turns.length === 0) {
     return (
       <Conversation className={className}>
-        <div className="mt-auto flex flex-col">
-          <p className="text-lg font-medium tracking-tight motion-safe:animate-fd-roll-in">
-            {t('What do you want to know?')}
+        <div className="docs-ai-welcome mt-auto flex flex-col">
+          <p className="docs-ai-assistant">
+            <SparklesIcon aria-hidden="true" /> AI assistant
           </p>
+          <p className="docs-ai-greeting motion-safe:animate-fd-roll-in">Hi!</p>
           <p
             className="mt-1 text-sm text-fd-muted-foreground motion-safe:animate-fd-roll-in"
             style={stagger()}
           >
-            {description ?? t('Answers come from the docs, AI can make mistakes.')}
+            {description ?? 'Ask me anything about the docs.'}
           </p>
+          <h3 className="docs-ai-examples-title">EXAMPLE QUESTIONS</h3>
           <ul
             aria-label={t('Suggestions', { note: 'aria-label' })}
-            className="mt-4 flex flex-wrap gap-1.5"
+            className="docs-ai-suggestions mt-4 flex flex-wrap gap-1.5"
           >
             {(
               suggestions ?? [
@@ -374,14 +378,19 @@ export function AIChatTrigger({ className }: { className?: string }) {
       className={cn(
         buttonVariants({ variant: 'secondary' }),
         'fixed inset-e-[calc(--spacing(4)+var(--removed-body-scroll-bar-size,0px))] bottom-4 z-20 gap-2 rounded-2xl text-fd-muted-foreground shadow-lg transition-[translate,opacity] motion-reduce:transition-none',
-        open && 'translate-y-10 opacity-0',
         className,
       )}
-      inert={open}
+      aria-expanded={open}
       onClick={() => setOpen(!open)}
     >
-      <MessageCircleIcon className="size-4.5" />
-      {t('Ask AI')}
+      {open ? (
+        <ChevronRightIcon className="docs-ai-collapse" />
+      ) : (
+        <>
+          {t('Ask AI')}
+          <SparklesIcon className="size-6" />
+        </>
+      )}
     </button>
   );
 }

@@ -1,0 +1,489 @@
+/* Palette measured from https://docs.inkeep.com/overview (light and dark). */
+:root {
+  --docs-surface: #fff;
+  --color-fd-background: #f5f5f5;
+  --color-fd-foreground: #252422;
+  --color-fd-primary: #387eff;
+  --color-fd-primary-foreground: #fafafa;
+  --color-fd-muted: #f5f5f5;
+  --color-fd-muted-foreground: #737373;
+  --color-fd-card: #f1f1f1;
+  --color-fd-card-foreground: #0a0a0a;
+  --color-fd-popover: #fafafa;
+  --color-fd-popover-foreground: #272727;
+  --color-fd-secondary: #ededed;
+  --color-fd-secondary-foreground: #171717;
+  --color-fd-accent: #d1d1d180;
+  --color-fd-accent-foreground: #171717;
+  --color-fd-border: #cccccc80;
+  --color-fd-ring: #a3a3a3;
+}
+
+.dark {
+  --docs-surface: #0a0a0a;
+  --color-fd-background: #121212;
+  --color-fd-foreground: #ebebeb;
+  --color-fd-primary: #6baeff;
+  --color-fd-primary-foreground: #171717;
+  --color-fd-muted: #212121;
+  --color-fd-muted-foreground: #b3b3b3cc;
+  --color-fd-card: #191919;
+  --color-fd-card-foreground: #fafafa;
+  --color-fd-popover: #1e1e1e;
+  --color-fd-popover-foreground: #dedede;
+  --color-fd-secondary: #212121;
+  --color-fd-secondary-foreground: #ebebeb;
+  --color-fd-accent: #6868684d;
+  --color-fd-accent-foreground: #e6e6e6;
+  --color-fd-border: #6663;
+  --color-fd-ring: #8c8c8c;
+}
+
+body,
+#nd-sidebar,
+#nd-sidebar-mobile,
+#nd-subnav {
+  background-color: var(--docs-surface);
+}
+
+.docs-page-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.docs-page-heading h1 {
+  flex: 1;
+  min-width: min(100%, 15rem);
+  letter-spacing: -0.025em;
+}
+
+.docs-page-actions {
+  margin-inline-start: auto;
+}
+
+.docs-page-copy {
+  height: 30px;
+  gap: 7px;
+  padding: 5px 7px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.docs-page-copy > svg {
+  width: 16px;
+  height: 16px;
+}
+
+.docs-page-open {
+  width: 24px;
+  height: 30px;
+  gap: 0;
+  padding: 0 4px;
+  color: var(--color-fd-muted-foreground);
+  border-inline-start: 1px solid var(--color-fd-border);
+  padding-inline-start: 3px;
+}
+
+div:has(> .docs-social-footer) {
+  padding: 0;
+}
+
+.docs-social-footer {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--color-fd-border);
+  padding: 8px 16px 16px;
+  padding-inline-start: 16px;
+  color: var(--color-fd-muted-foreground);
+}
+
+.docs-social-links {
+  display: flex;
+  align-items: center;
+}
+
+.docs-social-links :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.docs-social-links svg {
+  width: 18px;
+  height: 18px;
+}
+
+.docs-social-links a:hover {
+  background: var(--color-fd-accent);
+  color: var(--color-fd-accent-foreground);
+}
+
+.docs-theme-switch {
+  margin-inline-start: auto;
+  padding: 0;
+}
+
+.docs-ai-trigger {
+  right: 24px;
+  bottom: 24px;
+  height: 50px;
+  padding: 12px 18px;
+  gap: 8px;
+  border: 1px solid #69a3ff;
+  border-radius: 9999px;
+  background: #d5e5ff;
+  color: #231f20;
+  font-size: 16px;
+  font-weight: 500;
+  transition: box-shadow 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  box-shadow:
+    5px 6px 18px rgb(157 194 255 / 0.2),
+    0 8px 32px rgb(0 0 0 / 0.08);
+}
+
+.docs-ai-trigger:hover {
+  background: #c9dbff;
+  box-shadow:
+    6px 8px 22px rgb(157 194 255 / 0.24),
+    0 10px 36px rgb(0 0 0 / 0.1);
+  transform: scale(1.05);
+}
+
+.docs-ai-trigger[aria-expanded='true'] {
+  width: 50px;
+  padding: 12px;
+}
+
+.docs-ai-collapse {
+  width: 24px;
+  height: 24px;
+  rotate: 90deg;
+}
+
+.docs-ai-panel {
+  position: fixed;
+  z-index: 50;
+  right: 20px;
+  bottom: 84px;
+  width: 440px;
+  height: min(650px, calc(100dvh - 104px));
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--docs-surface);
+  color: var(--color-fd-foreground);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+.docs-ai-header {
+  padding: 12px;
+  gap: 6px;
+}
+
+.docs-ai-header p {
+  font-size: 12px;
+}
+
+.docs-ai-content .fd-scroll-container > div {
+  padding-inline: 20px;
+  padding-bottom: 24px;
+}
+
+.docs-ai-assistant {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  color: var(--color-fd-muted-foreground);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.docs-ai-assistant svg {
+  width: 24px;
+  height: 24px;
+}
+
+.docs-ai-greeting {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.docs-ai-examples-title {
+  margin-top: 32px;
+  color: var(--color-fd-muted-foreground);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.docs-ai-suggestions {
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.docs-ai-suggestions button {
+  width: 100%;
+  height: 36px;
+  border-radius: 6px;
+  font-size: 14px;
+  justify-content: center;
+  text-align: center;
+}
+
+.docs-ai-input {
+  min-height: 44px;
+  background: var(--color-fd-muted);
+  border-color: transparent;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.08);
+}
+
+.docs-ai-footer {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 20px 12px;
+  color: var(--color-fd-muted-foreground);
+  font-size: 11px;
+}
+
+.dark .docs-ai-trigger {
+  background: #212121;
+  color: #ebebeb;
+  border-color: #6baeff;
+  box-shadow: none;
+}
+
+@media (max-width: 479px) {
+  .docs-ai-panel {
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    border-radius: 0;
+  }
+
+  .docs-ai-trigger[aria-expanded='true'] {
+    display: none;
+  }
+}
+
+.docs-page-open:hover {
+  color: var(--color-fd-accent-foreground);
+}
+
+.docs-page-open > svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ViewOptionsPopover appends its own chevron after the custom trigger content. */
+.docs-page-open > svg:last-child {
+  display: none;
+}
+
+#nd-page .prose figure.shiki {
+  background-color: color-mix(in srgb, var(--color-fd-secondary) 50%, transparent);
+  border-radius: 0.5rem;
+  box-shadow: none;
+  margin-block: 24px;
+}
+
+/* Match Inkeep's code typography and preserve the scroll/copy primitives. */
+#nd-page .shiki > [role='region'] {
+  --padding-right: 16px;
+  padding-block: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+#nd-page .shiki > .docs-code-viewport {
+  overflow: hidden;
+  max-height: none;
+}
+
+#nd-page .shiki pre {
+  width: auto;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+#nd-page .shiki pre > code {
+  display: block;
+}
+
+#nd-page .shiki .line {
+  padding-inline: 16px;
+}
+
+#nd-page .prose :is(h2, h3):not(.not-prose) {
+  letter-spacing: -0.025em;
+}
+
+#nd-page .prose [data-card='true'] {
+  background-color: transparent;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: none;
+}
+
+.docs-card {
+  position: relative;
+  color: var(--color-fd-card-foreground);
+  transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.docs-card-hover {
+  position: absolute;
+  pointer-events: none;
+  inset: -1px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  opacity: 0;
+  background:
+    linear-gradient(#f9fafb, #f9fafb) padding-box,
+    linear-gradient(to top, #387eff, #387eff, #6baeff) border-box;
+}
+
+.docs-card:is(:hover, :focus-visible) .docs-card-hover {
+  opacity: 1;
+}
+
+.docs-card-content {
+  position: relative;
+}
+
+.docs-card-icon {
+  margin-bottom: 24px;
+  color: #9ca3af;
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.docs-card-icon > svg {
+  height: 24px;
+  width: auto;
+  color: var(--card-color);
+}
+
+.docs-card:is(:hover, :focus-visible) .docs-card-icon {
+  color: #6b7280;
+}
+
+.docs-card-title {
+  margin: 8px 0;
+  color: #030712;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.docs-card-arrow {
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 2px;
+  vertical-align: top;
+  color: #d1d5db;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: transform 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    color 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.docs-card:is(:hover, :focus-visible) .docs-card-arrow {
+  transform: translateX(0);
+  color: #6b7280;
+  opacity: 1;
+}
+
+#nd-page .docs-card-description {
+  margin: 0;
+}
+
+.docs-card-description,
+.docs-card-body {
+  color: var(--color-fd-muted-foreground);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.dark .docs-card-hover {
+  background:
+    linear-gradient(#111827, #111827) padding-box,
+    linear-gradient(to top, #6baeff, #6baeff, #6baeff) border-box;
+}
+
+.dark .docs-card-title {
+  color: #fff;
+}
+
+.dark .docs-card-icon {
+  color: #6b7280;
+}
+
+.dark .docs-card:is(:hover, :focus-visible) .docs-card-icon {
+  color: #d1d5db;
+}
+
+.dark .docs-card:is(:hover, :focus-visible) .docs-card-arrow {
+  color: rgb(255 255 255 / 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-ai-trigger,
+  .docs-card-arrow {
+    transition: none;
+  }
+}
+
+#nd-page .prose a[data-card='true']:hover {
+  box-shadow:
+    0 1px 7px -4px rgb(19 19 22 / 0.8),
+    0 4px 11px rgb(32 42 54 / 0.05);
+}
+
+.dark #nd-page .prose a[data-card='true']:hover {
+  box-shadow: none;
+}
+
+@media (min-width: 768px) {
+  #nd-docs-layout {
+    --fd-sidebar-width: 268px;
+  }
+
+  /* Inkeep's visible sidebar extends 4px beyond its reserved layout column. */
+  #nd-sidebar[data-collapsed='false'] {
+    width: calc(var(--fd-sidebar-width) + 4px);
+  }
+
+  #nd-page {
+    padding-top: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #nd-docs-layout {
+    --fd-sidebar-width: 286px;
+  }
+}
+
+@media (min-width: 1280px) {
+  #nd-docs-layout {
+    --fd-toc-width: 286px;
+  }
+
+  #nd-toc {
+    padding-inline-end: 0;
+  }
+}
