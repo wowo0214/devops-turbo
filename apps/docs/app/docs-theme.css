@@ -131,29 +131,57 @@ div:has(> .docs-social-footer) {
 }
 
 .docs-ai-trigger {
+  isolation: isolate;
   right: 24px;
   bottom: 24px;
   height: 50px;
   padding: 12px 18px;
   gap: 8px;
-  border: 1px solid #69a3ff;
+  border: 1px solid transparent;
   border-radius: 9999px;
-  background: #d5e5ff;
+  background: transparent;
   color: #231f20;
   font-size: 16px;
   font-weight: 500;
+  box-shadow: none;
+  transition: none;
+}
+
+/* Scale the visual surface, keeping text and icons out of bitmap resampling. */
+.docs-ai-trigger::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid #69a3ff;
+  border-radius: inherit;
+  background: #d5e5ff;
   transition: box-shadow 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
   box-shadow:
     5px 6px 18px rgb(157 194 255 / 0.2),
     0 8px 32px rgb(0 0 0 / 0.08);
 }
 
-.docs-ai-trigger:hover {
+.docs-ai-trigger:hover:not(:active)::before {
   background: #c9dbff;
   box-shadow:
     6px 8px 22px rgb(157 194 255 / 0.24),
     0 10px 36px rgb(0 0 0 / 0.1);
-  transform: scale(1.05);
+  transform: scale(1.1);
+}
+
+.docs-ai-trigger:active::before {
+  transform: scale(0.9);
+  transition-duration: 100ms;
+}
+
+.docs-ai-trigger:focus-visible::before {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #69a3ff;
+}
+
+.docs-ai-trigger:hover {
+  background: transparent;
 }
 
 .docs-ai-trigger[aria-expanded='true'] {
@@ -256,9 +284,20 @@ div:has(> .docs-social-footer) {
 }
 
 .dark .docs-ai-trigger {
-  background: #212121;
+  background: transparent;
   color: #ebebeb;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.dark .docs-ai-trigger::before {
+  background: #212121;
   border-color: #6baeff;
+  box-shadow: none;
+}
+
+.dark .docs-ai-trigger:hover:not(:active)::before {
+  background: #212121;
   box-shadow: none;
 }
 
@@ -326,6 +365,13 @@ div:has(> .docs-social-footer) {
 
 #nd-page .prose :is(h2, h3):not(.not-prose) {
   letter-spacing: -0.025em;
+}
+
+/* Match Inkeep's inline links without changing cards or heading anchors. */
+#nd-page .prose a:not([data-card]):not(:where(.not-prose, .not-prose *, h1 *, h2 *, h3 *, h4 *, h5 *, h6 *)) {
+  font-weight: 600;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
 #nd-page .prose [data-card='true'] {
@@ -442,9 +488,30 @@ div:has(> .docs-social-footer) {
 
 @media (prefers-reduced-motion: reduce) {
   .docs-ai-trigger,
+  .docs-ai-trigger::before,
   .docs-card-arrow {
     transition: none;
   }
+}
+
+/* Inkeep computes its offset from the full viewport, including the scrollbar. */
+html:has(#nd-docs-layout) {
+  scrollbar-gutter: auto;
+}
+
+#nd-docs-layout {
+  --docs-layout-width: 1600px;
+  --docs-page-width: 1200px;
+  --docs-layout-offset: max(calc(50vw - var(--docs-layout-width) / 2), 0px);
+}
+
+#nd-docs-layout[data-sidebar-collapsed='true'] {
+  --docs-layout-offset: 0px;
+}
+
+#nd-page {
+  max-width: calc(var(--docs-page-width) - var(--fd-toc-width));
+  padding-bottom: 0;
 }
 
 #nd-page .prose a[data-card='true']:hover {
@@ -464,7 +531,7 @@ div:has(> .docs-social-footer) {
 
   /* Inkeep's visible sidebar extends 4px beyond its reserved layout column. */
   #nd-sidebar[data-collapsed='false'] {
-    width: calc(var(--fd-sidebar-width) + 4px);
+    width: calc(var(--fd-sidebar-width) + var(--docs-layout-offset) + 4px);
   }
 
   #nd-page {
@@ -484,6 +551,8 @@ div:has(> .docs-social-footer) {
   }
 
   #nd-toc {
+    position: fixed;
+    inset-inline-end: max(var(--docs-layout-offset), calc(50vw - var(--fd-sidebar-col) / 2 - var(--docs-page-width) / 2));
     padding-inline-end: 0;
   }
 }

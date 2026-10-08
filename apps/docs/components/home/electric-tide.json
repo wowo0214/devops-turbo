@@ -1,0 +1,100 @@
+{
+  "name": "Electric tide",
+  "type": "flow",
+  "profile": "sRGB",
+  "dividers": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "soften": 0,
+  "noise": 6,
+  "speed": 32,
+  "stops": [
+    {
+      "name": "MISTED SKY",
+      "hex": "#DFFBFF",
+      "rgb": [
+        223,
+        251,
+        255
+      ],
+      "oklch": [
+        0.9691,
+        0.0296,
+        207.1
+      ],
+      "cmyk": [
+        13,
+        2,
+        0,
+        0
+      ],
+      "position": 0.125
+    },
+    {
+      "name": "PALE LAGOON",
+      "hex": "#6FD8F2",
+      "rgb": [
+        111,
+        216,
+        242
+      ],
+      "oklch": [
+        0.829,
+        0.1036,
+        216.1
+      ],
+      "cmyk": [
+        54,
+        11,
+        0,
+        5
+      ],
+      "position": 0.375
+    },
+    {
+      "name": "CLEAR HANADA",
+      "hex": "#4C5BE0",
+      "rgb": [
+        76,
+        91,
+        224
+      ],
+      "oklch": [
+        0.5384,
+        0.2008,
+        272.8
+      ],
+      "cmyk": [
+        66,
+        59,
+        0,
+        12
+      ],
+      "position": 0.625
+    },
+    {
+      "name": "NIGHT INDIGO",
+      "hex": "#2A2450",
+      "rgb": [
+        42,
+        36,
+        80
+      ],
+      "oklch": [
+        0.2921,
+        0.0777,
+        286.8
+      ],
+      "cmyk": [
+        48,
+        55,
+        0,
+        69
+      ],
+      "position": 0.875
+    }
+  ],
+  "source": "https://feralui.dev/gradients"
+}

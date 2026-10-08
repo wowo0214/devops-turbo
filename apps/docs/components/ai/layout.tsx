@@ -19,6 +19,18 @@ function ChatLayout(props: DocsLayoutProps) {
     <>
       <Layout
         {...props}
+        containerProps={{
+          ...props.containerProps,
+          style: {
+            ...props.containerProps?.style,
+            gridTemplate: `"sidebar sidebar gutter-left header toc gutter-right outside-right"
+"sidebar sidebar gutter-left toc-popover toc gutter-right outside-right"
+"sidebar sidebar gutter-left main toc gutter-right outside-right" 1fr /
+var(--docs-layout-offset) var(--fd-sidebar-col) minmax(0, 1fr)
+minmax(0, calc(var(--docs-page-width) - var(--fd-toc-width)))
+var(--fd-toc-width) minmax(0, 1fr) var(--docs-layout-offset)`,
+          },
+        }}
         githubUrl={undefined}
         themeSwitch={{ enabled: false }}
         sidebar={{ ...props.sidebar, footer: <DocsSocialFooter /> }}
