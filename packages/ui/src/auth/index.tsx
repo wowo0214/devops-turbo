@@ -1,3 +1,5 @@
+"use client"
+
 export { Auth, type AuthProps } from "./auth"
 export { AuthProvider } from "./auth-provider"
 export { Settings, type SettingsProps } from "./settings/settings"

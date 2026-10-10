@@ -1,11 +1,10 @@
 "use client"
 
-import { useAuthenticate } from "@better-auth-ui/react"
 import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 
 export function DashboardContent() {
-  const { data: session } = useAuthenticate(authClient)
+  const { data: session } = authClient.useSession()
   if (!session) return <main className="my-auto text-center">正在读取登录状态…</main>
 
   return (
