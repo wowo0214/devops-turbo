@@ -4,7 +4,8 @@
   "scripts": {
     "build": "turbo run build",
     "clean": "turbo run clean",
-    "dev": "turbo run docs#dev",
+    "dev:docs": "turbo run docs#dev",
+    "dev:admin": "turbo run link-admin#dev",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {

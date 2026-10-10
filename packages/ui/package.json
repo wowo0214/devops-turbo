@@ -37,13 +37,8 @@
     "lint": "eslint src/",
     "test": "jest"
   },
-  "jest": {
-    "preset": "@repo/jest-presets/browser"
-  },
   "devDependencies": {
     "@jest/globals": "30.5.1",
-    "@repo/eslint-config": "workspace:*",
-    "@repo/jest-presets": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "26.4.1",
     "@typescript/native": "npm:typescript@7.0.2",
