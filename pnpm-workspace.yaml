@@ -1,8 +1,13 @@
 packages:
   - "apps/*"
   - "packages/*"
+verifyDepsBeforeRun: false
 allowBuilds:
   '@parcel/watcher': true
   '@swc/core': true
   esbuild: true
   unrs-resolver: true
+  sharp: false
+
+overrides:
+  typescript: "^7.0.2"
