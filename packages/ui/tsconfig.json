@@ -7,19 +7,12 @@
     ],
     "sourceMap": true,
     "types": [
-      "jest",
       "node"
     ],
     "strictNullChecks": true,
     "paths": {
       "@repo/ui/*": [
         "./src/*"
-      ],
-      "@repo/ui/components/*": [
-        "./components/*"
-      ],
-      "@repo/ui/auth/*": [
-        "./auth/*"
       ]
     }
   },

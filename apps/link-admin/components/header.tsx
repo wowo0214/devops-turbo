@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { UserButton } from "@repo/ui/auth/user/user-button"
+import { UserButton } from "@repo/ui/auth"
 
 export function Header() {
   return (

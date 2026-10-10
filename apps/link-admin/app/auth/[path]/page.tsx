@@ -1,6 +1,6 @@
 import { viewPaths } from "@better-auth-ui/core"
 import { notFound } from "next/navigation"
-import { Auth } from "@repo/ui/auth/auth"
+import { Auth } from "@repo/ui/auth"
 
 const validAuthPaths = new Set(Object.values(viewPaths.auth))
 

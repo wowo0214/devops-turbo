@@ -6,9 +6,8 @@ import { useRouter } from "next/navigation"
 import { ThemeProvider, useTheme } from "next-themes"
 import type { ReactNode } from "react"
 
-import { AuthProvider } from "@repo/ui/auth/auth-provider"
-import { Toaster } from "@repo/ui/components/sonner"
-import { themePlugin } from "@repo/ui/auth/lib/theme-plugin"
+import { AuthProvider, themePlugin } from "@repo/ui/auth"
+import { Toaster } from "@repo/ui/sonner"
 import { authClient } from "@/lib/auth-client"
 import { getQueryClient } from "@/lib/query-client"
 

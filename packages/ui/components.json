@@ -5,7 +5,7 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "src/styles/globals.css",
+    "css": "src/styles.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
@@ -13,9 +13,9 @@
   "iconLibrary": "phosphor",
   "rtl": false,
   "aliases": {
-    "components": "@repo/ui/components",
-    "utils": "@repo/ui/lib/utils",
-    "ui": "@repo/ui/components",
+    "components": "@repo/ui",
+    "utils": "cn",
+    "ui": "@repo/ui",
     "lib": "@repo/ui/lib",
     "hooks": "@repo/ui/hooks"
   },

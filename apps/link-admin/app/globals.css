@@ -1,7 +1,5 @@
-@import "@repo/ui/styles.css";
+@import "@repo/ui/styles";
 @source "../../../packages/ui/src";
-@source "../../../packages/ui/components";
-@source "../../../packages/ui/auth";
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
